@@ -14,6 +14,7 @@ struct UploadPhotoView: View {
     @State private var showImagePicker = false
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var response: ExtractedResponse? = nil
+    @State private var isLoading: Bool = false
     
     var body: some View {
         if (response == nil) {
@@ -80,8 +81,12 @@ struct UploadPhotoView: View {
                 ImagePicker(selectedImageData: $selectedImageData, sourceType: sourceType)
             }
             
-            // Tombol Submit
-            ButtomSubmit_1(selectedImageData: $selectedImageData, response: $response)
+            if isLoading {
+                ProgressView("Memeriksa...")
+                    .padding()
+            } else {
+                ButtomSubmit_1(selectedImageData: $selectedImageData, response: $response, isLoading: $isLoading)
+            }
         } else {
             VStack {
                 GenerateSeiso(suggestion: response?.advice, rating: response?.rating, reason: response?.reason)
@@ -137,10 +142,12 @@ struct UploadPhotoView: View {
 struct ButtomSubmit_1: View {
     @Binding var selectedImageData: Data?
     @Binding var response: ExtractedResponse?
+    @Binding var isLoading: Bool
     
     var body: some View {
         VStack {
             Button(action: {
+                isLoading = true
                 uploadImage()
             }) {
                 Text("Mulai Cek Kerapian")
@@ -235,6 +242,7 @@ struct ButtomSubmit_1: View {
                             // Perbarui @State di thread utama
                             DispatchQueue.main.async {
                                 self.response = Optional(extractedResponse)
+                                isLoading = false
                             }
                         }
                     }

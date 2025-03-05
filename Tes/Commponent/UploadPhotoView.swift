@@ -6,6 +6,9 @@ struct ExtractedResponse: Codable {
     let rating: Int
     let reason: String
     let advice: String
+    let hairPoint: Float
+    let clothingPoint: Float
+    let facePoint: Float
 }
 
 struct UploadPhotoView: View {
@@ -17,7 +20,11 @@ struct UploadPhotoView: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        if (response == nil) {
+        if(isLoading == true){
+            ProgressView("Memeriksa...")
+                .padding()
+        }
+        else if (response == nil) {
             VStack {
                 if let imageData = selectedImageData, let uiImage = UIImage(data: imageData) {
                     Button(action : {
@@ -81,15 +88,10 @@ struct UploadPhotoView: View {
                 ImagePicker(selectedImageData: $selectedImageData, sourceType: sourceType)
             }
             
-            if isLoading {
-                ProgressView("Memeriksa...")
-                    .padding()
-            } else {
-                ButtomSubmit_1(selectedImageData: $selectedImageData, response: $response, isLoading: $isLoading)
-            }
+            ButtomSubmit_1(selectedImageData: $selectedImageData, response: $response, isLoading: $isLoading)
         } else {
             VStack {
-                GenerateSeiso(suggestion: response?.advice, rating: response?.rating, reason: response?.reason)
+                GenerateSeiso(suggestion: response?.advice, rating: response?.rating, reason: response?.reason, hairPoint: response?.hairPoint, clothingPoint: response?.clothingPoint, facePoint: response?.facePoint)
                 Button(action: {
                             resetForm()
                         }) {
@@ -164,6 +166,7 @@ struct ButtomSubmit_1: View {
     // Fungsi untuk mengunggah gambar ke API Gemini
     func uploadImage() {
         guard let imageData = selectedImageData else {
+            isLoading = false
             print("No image selected")
             return
         }
@@ -182,7 +185,41 @@ struct ButtomSubmit_1: View {
                 [
                     "parts": [
                         [
-                            "text": "Bisakah kamu menilai dari rentang 1 sampai 100, seberapa rapi penampilan orang ini dalam konteks pergi ke kantor yang menerapkan budaya semi formal dengan penilaian dari rambut, pakaian, dan wajah apakah terlihat sudah mandi atau belum, tidak perlu memperhatikan bagus atau tidak pakaian nya, cukup nilai dari kepantasan dan ketepatan dia pergi bekerja. Anda juga bisa menilai jika dia terlalu berlebihan dalam berpakaian misalnya: karena kantor ini adalah semi formal, dia pergi memakai gaun. Buatkan hasil dalam bentuk langsung json saja tidak perlu kata kata pembuka, serta berikan alasan dan nasihat agar orang ini semakin rapi. bentuk json nya adalah seperti ini : {rating: responsefromyou, reason: alasandarikamu, advice: nasihatdarikamu}"
+                            "text": """
+                                    Bisakah kamu menilai dari rentang 1 sampai 100 seberapa rapi penampilan orang ini dalam konteks pergi ke kantor yang menerapkan budaya semi formal?
+
+                                    Penilaian ini didasarkan pada tiga aspek:
+                                    1. Rambut (hairPoint) → Apakah sudah disisir atau terlihat rapi serta sopan? rambut yang dinilai tidak sopan atau tidak rapi adalah model rambut yang terlalu panjang namun tidak diatur atau seperti gaya rambut preman (mohawk, mulet, dan lain lain)
+                                    2. Pakaian (clothingPoint) → Apakah sesuai dengan budaya semi formal, tidak terlalu santai atau terlalu formal?
+                                    3. Wajah (facePoint) → Apakah terlihat sudah mandi dan bersih?
+                            
+                                    Peraturan dan batasan di kantor saya:
+                                    1. Pakaian yang digunakan adalah semi formal, artinya boleh kasual asalkan sopan, namun lebih dianjurkan untuk menggunakan kemeja.
+                                    2. Pakaian yang terlalu formal seperti jas, gaun, dan lain lain dianggap terlalu berlebihan
+
+                                    ### Kriteria Penilaian:
+                                    - 1-30 → Sangat tidak rapi, tidak pantas untuk bekerja.
+                                    - 31-69 → Kurang rapi, masih bisa diterima tetapi perlu perbaikan.
+                                    - 70-94 → Rapi dan sesuai dengan standar semi formal.
+                                    - 95-100 → Sangat rapi dan profesional tanpa berlebihan.
+
+                                    Jika orang tersebut berpakaian terlalu berlebihan (misalnya memakai gaun atau jas resmi ke kantor semi formal), maka tetap berikan penilaian tinggi untuk kebersihan dan kerapian, tetapi tambahkan catatan pada "reason" tentang ketidaksesuaian dengan lingkungan kerja.
+
+                                    Jika kamu tidak dapat mendeteksi orang ataupun salah satu kriteria seperti rambut, pakaian, dan wajah dalam gambar, maka gunakan nilai default **0 untuk semua aspek** dan sebutkan dalam "reason".
+
+                                    Berikan hasil dalam format JSON seperti berikut:
+
+                                    {
+                                      "rating": nilaiTotalDariRataRataTigaAspek,
+                                      "reason": "Alasan mengapa orang ini mendapatkan rating tersebut.",
+                                      "advice": "Nasihat agar orang ini bisa tampil lebih rapi sesuai dengan lingkungan kerja. serta sarankan gaya rambut sesuai dengan bentuk wajah orang tersebut jika hair point nya masih dinilai rendah (1-60)",
+                                      "hairPoint": nilaiUntukRambut,
+                                      "clothingPoint": nilaiUntukPakaian,
+                                      "facePoint": nilaiUntukWajah
+                                    }
+                            
+                                    rating adalah rata rata dari hairPoint, clothingPoint, dan facePoint sehingga rentang point 3 hal ini adalah 1-100
+                            """
                         ],
                         [
                             "inline_data": [
@@ -229,6 +266,8 @@ struct ButtomSubmit_1: View {
                     let decodedResponse = try JSONDecoder().decode(GeminiResponse.self, from: jsonData)
                     
                     if let rawText = decodedResponse.candidates.first?.content.parts.first?.text {
+                        isLoading = false
+                        selectedImageData = nil
                         // Bersihkan teks JSON dari wrapper ```json ... ```
                         let cleanedText = rawText
                             .replacingOccurrences(of: "```json", with: "")
@@ -242,7 +281,6 @@ struct ButtomSubmit_1: View {
                             // Perbarui @State di thread utama
                             DispatchQueue.main.async {
                                 self.response = Optional(extractedResponse)
-                                isLoading = false
                             }
                         }
                     }

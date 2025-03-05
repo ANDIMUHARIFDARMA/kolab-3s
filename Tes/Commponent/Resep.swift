@@ -1,14 +1,14 @@
 import SwiftUI
 
-struct ReasonView: View {
+struct ResepView: View {
     var reason: String
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    Image(systemName: "person.crop.circle.badge.questionmark")
-                    Text("Alasan dari AI:")
+                    Image(systemName: "character.book.closed.fill")
+                    Text("Langkah - langkah mebuatnya:")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.leading)
@@ -38,5 +38,5 @@ struct ReasonView: View {
 }
 
 #Preview {
-    ReasonView(reason: "C")
+    ResepView(reason: "Contoh")
 }

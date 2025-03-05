@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct QuestionCardView: View {
+struct FoodCardView: View {
     var body: some View {
         HStack(alignment: .top, spacing: 15) {
             // Ikon di kiri
-            Image(systemName: "person.and.background.dotted")
+            Image(systemName: "fork.knife.circle")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40, height: 40)
@@ -19,11 +19,11 @@ struct QuestionCardView: View {
                 .padding(.top, 2) // Sedikit turun agar sejajar dengan teks
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Seiton Ai")
+                Text("Seiso Ai")
                     .font(.caption)
                     .foregroundColor(.gray)
 
-                Text("Seberapa rapi diri lo hari ini?")
+                Text("Mau masakan apa hari ini?")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
@@ -48,6 +48,6 @@ struct QuestionCardView: View {
 }
 
 #Preview {
-    QuestionCardView()
+    FoodCardView()
 }
 

@@ -1,18 +1,19 @@
-//
-//  ProgressBarView.swift
-//  Tes
-//
-//  Created by ANDISAPUTRA on 04/03/25.
-//
-
 import SwiftUI
 
 struct ProgressBarView: View {
+    var progress: Float
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 20) {
+            ProgressView(value: progress, total: 100)
+                .progressViewStyle(LinearProgressViewStyle())
+                .frame(maxWidth: .infinity)
+                .padding()
+                .accentColor(Color.orange)
+        }
     }
 }
 
 #Preview {
-    ProgressBarView()
+    ProgressBarView(progress: 59)
 }

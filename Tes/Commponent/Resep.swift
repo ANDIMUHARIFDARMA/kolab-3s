@@ -1,24 +1,25 @@
 import SwiftUI
 
 struct ResepView: View {
-    var reason: String
-
+    var steps: [String]
+    
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Image(systemName: "character.book.closed.fill")
-                    Text("Langkah - langkah mebuatnya:")
+                    Text("Langkah - langkah membuatnya:")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.leading)
                 }
                     
-
-                Text(reason)
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(.black)
+                ForEach(Array(steps.enumerated()), id: \.element) { index, step in
+                    Text("\(index + 1). \(step)")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                }
             }
 
             Spacer()
@@ -38,5 +39,5 @@ struct ResepView: View {
 }
 
 #Preview {
-    ResepView(reason: "Contoh")
+    ResepView(steps: ["Tes"])
 }

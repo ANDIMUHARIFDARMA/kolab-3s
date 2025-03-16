@@ -5,60 +5,51 @@ struct BottomNavBar: View {
 
         var body: some View {
             TabView(selection: $selectedTab) {
-                Seiso()
+                HomeView()
                     .tabItem {
                         Image(systemName: selectedTab == 0 ? "house.circle.fill" : "house.circle")
                         Text("Home")
                     }
                     .tag(0)
 
-                SearchView()
+                SeiriView()
                     .tabItem {
                         Image(systemName: selectedTab == 1 ? "fork.knife.circle.fill" : "fork.knife.circle")
                         Text("Seiri")
                     }
                     .tag(1)
-
-                ContentView()
+                
+                ShitsukeView()
                     .tabItem {
-                        Image(systemName: selectedTab == 2 ? "face.dashed.fill" : "face.dashed")
-                        Text("Seiton")
+                        Image(systemName: selectedTab == 2 ? "calendar.badge.clock" : "calendar.badge.clock")
+                        Text("Shitsuke")
                     }
                     .tag(2)
+
+                SeitonView()
+                    .tabItem {
+                        Image(systemName: selectedTab == 3 ? "face.dashed.fill" : "face.dashed")
+                        Text("Seiton")
+                    }
+                    .tag(3)
                 
                 ProfileView()
                     .tabItem {
-                        Image(systemName: selectedTab == 3 ? "person.circle.fill" : "person.circle")
+                        Image(systemName: selectedTab == 4 ? "person.circle.fill" : "person.circle")
                         Text("Profile")
                     }
-                    .tag(3)
+                    .tag(4)
             }
             .accentColor(Color(hue: 0.076, saturation: 1.0, brightness: 0.854)) // Warna icon saat tab aktif
         }
     }
 
-// Sample Views
-struct HomeView: View {
-    var body: some View {
-        Text("Home Screen")
-            .font(.largeTitle)
-            .foregroundColor(.blue)
-    }
-}
-
-struct SearchView: View {
-    var body: some View {
-        Text("Search Screen")
-            .font(.largeTitle)
-            .foregroundColor(.green)
-    }
-}
-
 struct ProfileView: View {
     var body: some View {
-        Text("Profile Screen")
-            .font(.largeTitle)
-            .foregroundColor(.purple)
+        PrimaryButton(title: "Logout", action: {
+            UserDefaults.standard.removeObject(forKey: "userToken")
+            UserDefaults.standard.removeObject(forKey: "userData")
+        })
     }
 }
 

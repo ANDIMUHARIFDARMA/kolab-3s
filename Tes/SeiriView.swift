@@ -1,8 +1,8 @@
 //
-//  Seiri.swift
-//  Tes
+//  ContentView.swift
+//  FoodVisionAI
 //
-//  Created by ANDISAPUTRA on 05/03/25.
+//  Created by ANDISAPUTRA on 03/03/25.
 //
 
 import SwiftUI
@@ -12,10 +12,10 @@ struct SeiriView: View {
         ScrollView{
             VStack {
                 HeaderView() // Header
-                FoodCardView() // Pertanyaan AI
-                UploadPhotoView() // Upload Foto
+                FoodCardView() // Pertanyaan
+                UploadPhotoRecipe() // Upload Foto
             }
-        }.frame(width: .infinity)
+        }
     }
 }
 

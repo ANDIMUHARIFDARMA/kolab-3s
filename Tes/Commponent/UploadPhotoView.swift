@@ -281,11 +281,62 @@ struct ButtomSubmit_1: View {
                             // Perbarui @State di thread utama
                             DispatchQueue.main.async {
                                 self.response = Optional(extractedResponse)
+                                sendToSeiton(score: extractedResponse.rating)
                             }
                         }
                     }
                 } catch {
                     print("Error parsing JSON: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
+    }
+    
+    func sendToSeiton(score: Int) {
+        let seitonURL = URL(string: "https://kolab-center-api.laravel.cloud/api/seiton")!
+        
+        // Ambil token dari UserDefaults
+        guard let token = UserDefaults.standard.string(forKey: "userToken") else {
+            print("Error: No token found.")
+            return
+        }
+        
+        var request = URLRequest(url: seitonURL)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization") // Bearer Token
+        
+        let seitonRequestBody: [String: Any] = [
+            "score": score
+        ]
+        
+        // Encode JSON data
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: seitonRequestBody, options: .prettyPrinted) else {
+            print("Failed to encode JSON for Seiton API")
+            return
+        }
+        
+        request.httpBody = jsonData
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Failed to send to Seiton: \(error.localizedDescription)")
+                return
+            }
+            
+            // Cek status code response
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Response Status Code: \(httpResponse.statusCode)")
+                if httpResponse.statusCode == 200 {
+                    print("Successfully sent to Seiton API")
+                    
+                    // Simpan user data ke UserDefaults (contoh penyimpanan hasil dari API)
+                    if let data = data, let jsonString = String(data: data, encoding: .utf8) {
+                        UserDefaults.standard.set(jsonString, forKey: "userData")
+                        print("User data berhasil disimpan ke UserDefaults")
+                    }
+                } else {
+                    print("Failed with status code: \(httpResponse.statusCode)")
                 }
             }
         }.resume()

@@ -9,9 +9,21 @@ import SwiftUI
 
 @main
 struct TesApp: App {
+    @State private var isActive: Bool = true
+    @AppStorage("userToken") private var userToken: String?
+    @AppStorage("userData") private var userData: String?
+    
     var body: some Scene {
         WindowGroup {
-            BottomNavBar()
+            if(isActive){
+                SplashScreenView(isActive: $isActive)
+            } else {
+                if userToken == nil || userData == nil {
+                    LoginView()
+                } else {
+                    BottomNavBar()
+                }
+            }
         }
     }
 }

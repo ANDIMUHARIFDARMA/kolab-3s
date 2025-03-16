@@ -24,7 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DA24005A2D76B91200FA0647 /* Tes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA24005A2D76B91200FA0647 /* Kolab Center.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kolab Center.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA24006A2D76B91400FA0647 /* TesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2400742D76B91400FA0647 /* TesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -85,7 +85,7 @@
 		DA24005B2D76B91200FA0647 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA24005A2D76B91200FA0647 /* Tes.app */,
+				DA24005A2D76B91200FA0647 /* Kolab Center.app */,
 				DA24006A2D76B91400FA0647 /* TesTests.xctest */,
 				DA2400742D76B91400FA0647 /* TesUITests.xctest */,
 			);
@@ -95,9 +95,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DA2400592D76B91200FA0647 /* Tes */ = {
+		DA2400592D76B91200FA0647 /* Kolab Center */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA24007E2D76B91400FA0647 /* Build configuration list for PBXNativeTarget "Tes" */;
+			buildConfigurationList = DA24007E2D76B91400FA0647 /* Build configuration list for PBXNativeTarget "Kolab Center" */;
 			buildPhases = (
 				DA2400562D76B91200FA0647 /* Sources */,
 				DA2400572D76B91200FA0647 /* Frameworks */,
@@ -110,11 +110,11 @@
 			fileSystemSynchronizedGroups = (
 				DA24005C2D76B91200FA0647 /* Tes */,
 			);
-			name = Tes;
+			name = "Kolab Center";
 			packageProductDependencies = (
 			);
 			productName = Tes;
-			productReference = DA24005A2D76B91200FA0647 /* Tes.app */;
+			productReference = DA24005A2D76B91200FA0647 /* Kolab Center.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DA2400692D76B91400FA0647 /* TesTests */ = {
@@ -200,7 +200,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA2400592D76B91200FA0647 /* Tes */,
+				DA2400592D76B91200FA0647 /* Kolab Center */,
 				DA2400692D76B91400FA0647 /* TesTests */,
 				DA2400732D76B91400FA0647 /* TesUITests */,
 			);
@@ -258,12 +258,12 @@
 /* Begin PBXTargetDependency section */
 		DA24006C2D76B91400FA0647 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2400592D76B91200FA0647 /* Tes */;
+			target = DA2400592D76B91200FA0647 /* Kolab Center */;
 			targetProxy = DA24006B2D76B91400FA0647 /* PBXContainerItemProxy */;
 		};
 		DA2400762D76B91400FA0647 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DA2400592D76B91200FA0647 /* Tes */;
+			target = DA2400592D76B91200FA0647 /* Kolab Center */;
 			targetProxy = DA2400752D76B91400FA0647 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -530,7 +530,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA24007E2D76B91400FA0647 /* Build configuration list for PBXNativeTarget "Tes" */ = {
+		DA24007E2D76B91400FA0647 /* Build configuration list for PBXNativeTarget "Kolab Center" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA24007F2D76B91400FA0647 /* Debug */,

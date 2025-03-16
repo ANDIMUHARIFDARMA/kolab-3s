@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct SeitonView: View {
     var body: some View {
         ScrollView{
             VStack {
@@ -15,10 +15,10 @@ struct ContentView: View {
                 QuestionCardView() // Pertanyaan AI
                 UploadPhotoView() // Upload Foto
             }
-        }.frame(width: .infinity)
+        }
     }
 }
 
 #Preview {
-    ContentView()
+    SeitonView()
 }
